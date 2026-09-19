@@ -10,6 +10,13 @@ module tb;
   reg  [2:0]   t_sel;
   wire [W-1:0] t_dout;
 
+    integer k;
+
+  lut #(.WIDTH(W), .DEPTH(D)) DUT (
+    .sel  (t_sel),
+    .dout (t_dout)
+  );
+
   // Waveform dump configuration (DO NOT CHANGE)
   string vcd_file;
   initial begin
@@ -22,7 +29,7 @@ module tb;
   initial begin
     // TODO: apply different input combinations
     for (k = 0; k < D; k = k + 1) begin
-      t_sel = k[2:0];
+      t_sel = k;
       #5;
       if (t_dout !== (k*k) % (1 << W))
         $display("  MISMATCH at sel=%0d: got %0d, expected %0d",
@@ -33,6 +40,6 @@ module tb;
   end
 
   initial
-    $monitor($time, " I0=%b I1=%b S=%b | Y=%b", t_i0, t_i1, t_s, t_y); // change as required
+$monitor($time, " sel=%0d | dout=%0d (0x%02h)", t_sel, t_dout, t_dout); // change as required
 
 endmodule
