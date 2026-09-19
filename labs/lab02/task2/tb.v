@@ -4,8 +4,11 @@
 module tb;
 
   // TODO: declare the inputs and outputs
-
+  localparam W = 8;
+  localparam D = 8;
   // TODO: instantiate DUT here
+  reg  [2:0]   t_sel;
+  wire [W-1:0] t_dout;
 
   // Waveform dump configuration (DO NOT CHANGE)
   string vcd_file;
@@ -18,7 +21,15 @@ module tb;
 
   initial begin
     // TODO: apply different input combinations
-
+    for (k = 0; k < D; k = k + 1) begin
+      t_sel = k[2:0];
+      #5;
+      if (t_dout !== (k*k) % (1 << W))
+        $display("  MISMATCH at sel=%0d: got %0d, expected %0d",
+                 k, t_dout, (k*k) % (1 << W));
+    end
+    $finish;
+  
   end
 
   initial

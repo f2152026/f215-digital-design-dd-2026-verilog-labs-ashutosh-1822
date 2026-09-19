@@ -23,6 +23,12 @@ module lut #(
 
   // TODO: make dout continuously reflect mem[sel]. This is a combinational
   // read -- pick the right procedural block and sensitivity list.
+  initial begin
+    for (i = 0; i < DEPTH; i = i + 1)
+      mem[i] = i*i;
+  end
 
+  always @(*)
+    dout = mem[sel];
 
 endmodule
